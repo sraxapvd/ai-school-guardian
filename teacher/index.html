@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI School Guardian — Teacher Portal</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    background: #f5f7fb;
+    color: #182338;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+:root {
+    --navy: #10233f;
+    --blue: #3978ff;
+    --blue-light: #eaf1ff;
+    --bg: #f5f7fb;
+    --white: #ffffff;
+    --text: #182338;
+    --muted: #738096;
+    --border: #e5e9f1;
+    --green: #19a974;
+    --green-bg: #eaf9f2;
+    --orange: #f59e0b;
+    --orange-bg: #fff6df;
+    --red: #e53935;
+    --red-bg: #fff0ef;
+    --shadow: 0 10px 30px rgba(16,35,63,.08);
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: linear-gradient(135deg, #f5f8ff, #edf4ff);
+}
+
+.login-card {
+    width: min(450px, 100%);
+    background: white;
+    padding: 38px;
+    border-radius: 28px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+
+.logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    background: var(--navy);
+    color: white;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-title {
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.brand-subtitle {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.login-card h1 {
+    margin-top: 40px;
+    margin-bottom: 8px;
+    font-size: 30px;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: 750;
+    margin: 18px 0 8px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: #fbfcfe;
+    outline: none;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(57,120,255,.1);
+}
+
+.btn {
+    border: 0;
+    border-radius: 13px;
+    padding: 12px 16px;
+    font-weight: 800;
+}
+
+.primary {
+    background: var(--blue);
+    color: white;
+}
+
+.secondary {
+    background: white;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.danger {
+    background: var(--red);
+    color: white;
+}
+
+.full {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.demo-box {
+    margin-top: 14px;
+    padding: 12px;
+    background: var(--blue-light);
+    border-radius: 13px;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* =========================
+   APP
+========================= */
+
+.app-shell {
+    min-height: 100vh;
+    display: flex;
+}
+
+.sidebar {
+    position: fixed;
+    width: 245px;
+    height: 100vh;
+    background: white;
+    border-right: 1px solid var(--border);
+    padding: 24px 15px;
+}
+
+.sidebar-brand {
+    padding: 5px 10px 28px;
+}
+
+.nav {
+    display: grid;
+    gap: 7px;
+}
+
+.nav button {
+    border: 0;
+    background: transparent;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: #68768b;
+    font-weight: 700;
+}
+
+.nav button:hover,
+.nav button.active {
+    background: var(--blue-light);
+    color: var(--blue);
+}
+
+.main {
+    margin-left: 245px;
+    width: calc(100% - 245px);
+    padding: 28px 38px 60px;
+}
+
+.container {
+    max-width: 1120px;
+    margin: auto;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+}
+
+.topbar h2 {
+    margin: 0;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #dce8ff;
+    color: #3158a8;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 6px 22px rgba(16,35,63,.04);
+}
+
+.section {
+    margin-top: 20px;
+    padding: 22px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.stat {
+    padding: 20px;
+}
+
+.stat-number {
+    font-size: 30px;
+    font-weight: 850;
+    margin-top: 8px;
+}
+
+.stat.red .stat-number {
+    color: var(--red);
+}
+
+.stat.orange .stat-number {
+    color: #b66d00;
+}
+
+.stat.green .stat-number {
+    color: var(--green);
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+}
+
+.table th,
+.table td {
+    padding: 14px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+
+.table th {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.table tbody tr {
+    cursor: pointer;
+}
+
+.table tbody tr:hover {
+    background: #fafcff;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 850;
+}
+
+.badge-red {
+    background: var(--red-bg);
+    color: #c52b28;
+}
+
+.badge-orange {
+    background: var(--orange-bg);
+    color: #a96b00;
+}
+
+.badge-green {
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+.badge-blue {
+    background: var(--blue-light);
+    color: #315dc1;
+}
+
+/* =========================
+   INCIDENT DETAIL
+========================= */
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.info-box {
+    padding: 14px;
+    background: #f8fafc;
+    border-radius: 14px;
+}
+
+.info-box small {
+    display: block;
+    color: var(--muted);
+    margin-bottom: 5px;
+}
+
+.two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.ai-risk {
+    padding: 18px;
+    border-radius: 16px;
+    background: var(--orange-bg);
+    border: 1px solid #f3d58e;
+}
+
+.ai-risk h3 {
+    margin-top: 0;
+    color: #9a6500;
+}
+
+.risk-factor {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-top: 9px;
+    background: white;
+}
+
+.ai-note {
+    padding: 15px;
+    border-radius: 14px;
+    background: var(--blue-light);
+    color: #294d98;
+    font-size: 13px;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 18px;
+}
+
+/* =========================
+   TIMELINE
+========================= */
+
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    background: #dce3ee;
+}
+
+.timeline-step {
+    position: relative;
+    padding-bottom: 25px;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -29px;
+    top: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #dce3ee;
+    border: 4px solid white;
+}
+
+.timeline-step.done .timeline-dot {
+    background: var(--green);
+}
+
+.timeline-step.current .timeline-dot {
+    background: var(--orange);
+}
+
+/* =========================
+   FILTER
+========================= */
+
+.filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.filters button {
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 999px;
+    padding: 8px 13px;
+}
+
+.filters button.active {
+    background: var(--blue-light);
+    color: var(--blue);
+}
+
+/* =========================
+   MAP
+========================= */
+
+.school-map {
+    height: 450px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    background:
+        linear-gradient(#eef3f8 1px, transparent 1px),
+        linear-gradient(90deg, #eef3f8 1px, transparent 1px);
+    background-size: 25px 25px;
+}
+
+.building {
+    position: absolute;
+    border: 2px solid white;
+    border-radius: 15px;
+    padding: 14px;
+    font-weight: 800;
+    box-shadow: 0 8px 20px rgba(16,35,63,.12);
+}
+
+.low {
+    background: #eaf9f2;
+}
+
+.medium {
+    background: #fff7d9;
+}
+
+.high {
+    background: #fff1df;
+}
+
+.critical {
+    background: #ffe7e6;
+}
+
+.building-a {
+    left: 5%;
+    top: 10%;
+    width: 28%;
+    height: 25%;
+}
+
+.building-b {
+    left: 39%;
+    top: 12%;
+    width: 32%;
+    height: 30%;
+}
+
+.gym {
+    left: 74%;
+    top: 9%;
+    width: 20%;
+    height: 24%;
+}
+
+.cafeteria {
+    left: 10%;
+    top: 52%;
+    width: 31%;
+    height: 24%;
+}
+
+.library {
+    left: 48%;
+    top: 52%;
+    width: 23%;
+    height: 24%;
+}
+
+.restroom {
+    left: 76%;
+    top: 48%;
+    width: 17%;
+    height: 16%;
+}
+
+.courtyard {
+    left: 43%;
+    top: 83%;
+    width: 42%;
+    height: 11%;
+    background: var(--blue-light);
+}
+
+.map-detail {
+    margin-top: 16px;
+}
+
+/* =========================
+   ESCALATION
+========================= */
+
+.escalation-grid {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 20px;
+}
+
+.flow {
+    text-align: center;
+}
+
+.flow-item {
+    padding: 13px;
+    background: #f8fafc;
+    border-radius: 13px;
+    margin: 8px;
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 25px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 30px;
+    background: #dce8ff;
+    display: grid;
+    place-items: center;
+    color: #3158a8;
+    font-size: 35px;
+    font-weight: 900;
+}
+
+.setting {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-top: 1px solid var(--border);
+}
+
+.switch {
+    width: 45px;
+    height: 25px;
+    border-radius: 20px;
+    background: #ccd5e2;
+    position: relative;
+}
+
+.switch::after {
+    content: "";
+    position: absolute;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    background: white;
+    top: 3px;
+    left: 3px;
+}
+
+.switch.on {
+    background: var(--blue);
+}
+
+.switch.on::after {
+    left: 23px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    background: var(--navy);
+    color: white;
+    padding: 13px 17px;
+    border-radius: 13px;
+    z-index: 50;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar .brand-title,
+    .sidebar .brand-subtitle,
+    .nav span {
+        display: none;
+    }
+
+    .main {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+        padding: 20px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .two-columns,
+    .escalation-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:600px) {
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main {
+        padding: 15px;
+    }
+}
+</style>
+<link rel="stylesheet" href="../shared/shared.css">
+</head>
+
+<body>
+
+<div id="app"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../shared/supabase-config.js"></script><script src="../shared/shared.js"></script>
+<script>
+
+/* =========================================================
+   MOCK DATA
+========================================================= */
+
+function refreshCases(){
+    cases = ASG.getCases().map(c => ({
+        id:c.id, student:c.studentId, grade:c.grade||'ม.4', type:c.type, risk:ASG.riskLabel(c.aiRisk), location:c.location, time:c.time || '—', status:ASG.statusLabel[c.status] || c.status, sharedStatus:c.status
+    }));
+    const current=cases.find(x=>x.id===state.caseId);
+    state.accepted=!!current && ['ACCEPTED','INTERVENTION','FOLLOW_UP','RESOLVED'].includes(current.sharedStatus);
+}
+
+let cases = [];
+
+const state = {
+    page: "login",
+    caseId: "SG-1024",
+    accepted: false,
+    filter: "ทั้งหมด",
+    search: ""
+};
+
+const app = document.getElementById("app");
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function go(page) {
+    state.page = page;
+    render();
+}
+
+function openCase(id) {
+    state.caseId = id;
+    state.page = "analysis";
+    render();
+}
+
+function toast(message) {
+    const div = document.createElement("div");
+    div.className = "toast";
+    div.innerText = message;
+
+    document.body.appendChild(div);
+
+    setTimeout(() => {
+        div.remove();
+    }, 2200);
+}
+
+function riskClass(risk) {
+    if (risk === "วิกฤต") return "badge-red";
+    if (risk === "สูง") return "badge-orange";
+    if (risk === "ปานกลาง") return "badge-orange";
+    return "badge-green";
+}
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function loginPage() {
+
+    app.innerHTML = `
+        <div class="login-page">
+
+            <div class="login-card">
+
+                <div class="brand">
+
+                    <div class="logo">
+                        AI
+                    </div>
+
+                    <div>
+                        <div class="brand-title">
+                            AI School Guardian
+                        </div>
+
+                        <div class="brand-subtitle">
+                            Teacher Portal
+                        </div>
+                    </div>
+
+                </div>
+
+                <h1>เข้าสู่ระบบครู</h1>
+
+                <p class="muted">
+                    รับแจ้งเหตุ วิเคราะห์ และติดตามการช่วยเหลือนักเรียน
+                </p>
+
+                <label>
+                    อีเมลโรงเรียน
+                </label>
+
+                <input
+                    placeholder="teacher@school.ac.th"
+                >
+
+                <label>
+                    รหัสผ่าน
+                </label>
+
+                <input
+                    type="password"
+                    placeholder="••••••••"
+                >
+
+                <button
+                    class="btn primary full"
+                    onclick="ASG.login('teacher');go('dashboard')"
+                >
+                    เข้าสู่ระบบ
+                </button>
+
+                <div class="demo-box">
+                    <b>Teacher Demo</b>
+                    <br>
+                    บัญชีทดลองสำหรับการสาธิต
+                </div>
+
+                <button
+                    class="btn secondary full"
+                    onclick="ASG.login('teacher');go('dashboard')"
+                >
+                    เข้าสู่ Demo ครู
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+function layout(content, title) {
+
+    app.innerHTML = `
+
+        <div class="app-shell">
+
+            <aside class="sidebar">
+
+                <div class="sidebar-brand">
+
+                    <div class="brand">
+
+                        <div class="logo">
+                            AI
+                        </div>
+
+                        <div>
+                            <div class="brand-title">
+                                AI School
+                            </div>
+
+                            <div class="brand-subtitle">
+                                Teacher Portal
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <nav class="nav">
+
+                    <button
+                        class="${state.page === "dashboard" ? "active" : ""}"
+                        onclick="go('dashboard')"
+                    >
+                        ⌂
+                        <span>แดชบอร์ด</span>
+                    </button>
+
+                    <button
+                        class="${state.page === "alerts" ? "active" : ""}"
+                        onclick="go('alerts')"
+                    >
+                        🔔
+                        <span>แจ้งเตือนความปลอดภัย</span>
+                    </button>
+
+                    <button
+                        class="${state.page === "analysis" ? "active" : ""}"
+                        onclick="openCase('SG-1024')"
+                    >
+                        ✦
+                        <span>การวิเคราะห์โดย AI</span>
+                    </button>
+
+                    <button
+                        class="${state.page === "cases" ? "active" : ""}"
+                        onclick="go('cases')"
+                    >
+                        ▣
+                        <span>จัดการเคส</span>
+                    </button>
+
+                    <button
+                        class="${state.page === "map" ? "active" : ""}"
+                        onclick="go('map')"
+                    >
+                        ⌖
+                        <span>แผนที่ความปลอดภัย</span>
+                    </button>
+
+                    <button
+                        class="${state.page === "escalation" ? "active" : ""}"
+                        onclick="go('escalation')"
+                    >
+                        ↗
+                        <span>ศูนย์ส่งต่อ</span>
+                    </button>
+
+                    <button
+                        class="${state.page === "profile" ? "active" : ""}"
+                        onclick="go('profile')"
+                    >
+                        ◯
+                        <span>โปรไฟล์</span>
+                    </button>
+                    <button onclick="ASG.logout();window.location.href='../index.html'">
+                        <span>↩</span><span>กลับหน้า Login</span>
+                    </button>
+
+                </nav>
+
+            </aside>
+
+            <main class="main">
+
+                <div class="container">
+
+                    <div class="topbar">
+
+                        <h2>
+                            ${title}
+                        </h2>
+
+                        <div class="avatar">
+                            T
+                        </div>
+
+                    </div>
+
+                    ${content}
+
+                </div>
+
+            </main>
+
+        </div>
+    `;
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function dashboardPage() {
+    refreshCases();
+    const shared = ASG.getCases();
+    const critical = shared.filter(c => c.aiRisk === 'CRITICAL').length;
+    const high = shared.filter(c => c.aiRisk === 'HIGH').length;
+    const pending = shared.filter(c => c.status !== 'RESOLVED').length;
+    const resolved = shared.filter(c => c.status === 'RESOLVED').length;
+
+    layout(`
+
+        <div class="stats">
+
+            <div class="card stat red">
+                <div class="stat-label">
+                    🔴 Critical
+                </div>
+
+                <div class="stat-number">
+                    ${critical}
+                </div>
+            </div>
+
+            <div class="card stat orange">
+                <div class="stat-label">
+                    🟠 High Risk
+                </div>
+
+                <div class="stat-number">
+                    ${high}
+                </div>
+            </div>
+
+            <div class="card stat orange">
+                <div class="stat-label">
+                    🟡 Pending
+                </div>
+
+                <div class="stat-number">
+                    ${pending}
+                </div>
+            </div>
+
+            <div class="card stat green">
+                <div class="stat-label">
+                    🟢 Resolved
+                </div>
+
+                <div class="stat-number">
+                    ${resolved}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card section table-wrapper">
+
+            <div class="topbar">
+
+                <h3>
+                    Recent Safety Alerts
+                </h3>
+
+                <button
+                    class="btn secondary"
+                    onclick="go('alerts')"
+                >
+                    ดูทั้งหมด
+                </button>
+
+            </div>
+
+            ${renderTable(cases.slice(0,3))}
+
+        </div>
+
+    `, "สวัสดีตอนเช้า คุณครู 👋");
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+function renderTable(rows) {
+
+    return `
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+                    <th>นักเรียน</th>
+                    <th>ประเภท</th>
+                    <th>ความเสี่ยง</th>
+                    <th>สถานที่</th>
+                    <th>เวลา</th>
+                    <th>สถานะ</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${rows.map(c => `
+
+                    <tr onclick="openCase('${c.id}')">
+
+                        <td>
+                            <b>
+                                นักเรียน ${c.student}
+                            </b>
+                        </td>
+
+                        <td>
+                            ${c.type}
+                        </td>
+
+                        <td>
+                            <span class="badge ${riskClass(c.risk)}">
+                                ${c.risk}
+                            </span>
+                        </td>
+
+                        <td>
+                            ${c.location}
+                        </td>
+
+                        <td>
+                            ${c.time}
+                        </td>
+
+                        <td>
+                            <span class="badge ${
+                                c.status === "แก้ไขแล้ว"
+                                ? "badge-green"
+                                : "badge-blue"
+                            }">
+                                ${c.status}
+                            </span>
+                        </td>
+
+                    </tr>
+
+                `).join("")}
+
+            </tbody>
+
+        </table>
+
+    `;
+}
+
+/* =========================================================
+   INCIDENT ANALYSIS
+========================================================= */
+
+function analysisPage() {
+
+    const c =
+        cases.find(x => x.id === state.caseId)
+        || cases[0];
+
+    layout(`
+
+        <div class="card section">
+
+            <div class="topbar">
+
+                <div>
+
+                    <h1>
+                        เคส #${c.id}
+                    </h1>
+
+                    <p class="muted">
+                        รายละเอียดเหตุการณ์และการวิเคราะห์โดย AI
+                    </p>
+
+                </div>
+
+                <span class="badge ${riskClass(c.risk)}">
+                    ${c.risk.toUpperCase()}
+                </span>
+
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-box">
+                    <small>นักเรียน</small>
+                    <b>นักเรียน ${c.student}</b>
+                </div>
+
+                <div class="info-box">
+                    <small>ระดับชั้น</small>
+                    <b>${c.grade}</b>
+                </div>
+
+                <div class="info-box">
+                    <small>ประเภท</small>
+                    <b>${c.type}</b>
+                </div>
+
+                <div class="info-box">
+                    <small>สถานที่</small>
+                    <b>${c.location}</b>
+                </div>
+
+                <div class="info-box">
+                    <small>เวลา</small>
+                    <b>${c.time}</b>
+                </div>
+
+                <div class="info-box">
+                    <small>สถานะ</small>
+                    <b>
+                        ${ASG.statusLabel[c.sharedStatus] || c.status}
+                    </b>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="two-columns section">
+
+            <div class="card section">
+
+                <div class="ai-risk">
+
+                    <h3>
+                        ✦ AI Risk Assessment
+                    </h3>
+
+                    <b>
+                        🟠 HIGH RISK
+                    </b>
+
+                    <p>
+                        นักเรียนรายงานพฤติกรรมการกลั่นแกล้ง
+                        ที่เกิดขึ้นซ้ำบริเวณอาคาร B
+                        รายงานมีสัญญาณของเหตุการณ์ต่อเนื่อง
+                        และอาจมีแนวโน้มรุนแรงขึ้น
+                    </p>
+
+                </div>
+
+                <h3 style="margin-top:22px;">
+                    Risk Factors
+                </h3>
+
+                <div class="risk-factor">
+                    ✓ เหตุการณ์เกิดขึ้นซ้ำ
+                </div>
+
+                <div class="risk-factor">
+                    ✓ ตรวจพบถ้อยคำเชิงข่มขู่
+                </div>
+
+                <div class="risk-factor">
+                    ✓ เคยมีรายงานจากสถานที่เดียวกัน
+                </div>
+
+                <div class="risk-factor">
+                    ✓ พบรายงานลักษณะคล้ายกันในพื้นที่นี้
+                </div>
+
+            </div>
+
+            <div class="card section">
+
+                <h3>
+                    AI Recommendation
+                </h3>
+
+                <div class="ai-note">
+
+                    Immediate human follow-up recommended.
+
+                    <br><br>
+
+                    แนะนำให้บุคลากรติดตามนักเรียนโดยเร็ว
+                    และตรวจสอบสถานการณ์เพิ่มเติมโดยมนุษย์
+
+                </div>
+
+                <div class="actions">
+
+                    <button
+                        class="btn primary"
+                        onclick="acceptCase()"
+                    >
+                        ✓ รับเรื่อง
+                    </button>
+
+                    <button
+                        class="btn secondary"
+                        onclick="toast('ส่งคำขอติดต่อไปยังนักเรียนแล้ว')"
+                    >
+                        ติดต่อ Student
+                    </button>
+
+                    <button
+                        class="btn danger"
+                        onclick="go('escalation')"
+                    >
+                        ส่งต่อ
+                    </button>
+
+                    <button
+                        class="btn secondary"
+                        onclick="resolveCase()"
+                    >
+                        ทำเครื่องหมายว่าแก้ไขแล้ว
+                    </button>
+
+                </div>
+
+                <p
+                    class="muted"
+                    style="font-size:12px;margin-top:22px;"
+                >
+                    AI ให้ข้อมูลเพื่อสนับสนุนการตัดสินใจเท่านั้น
+                    การตัดสินใจขั้นสุดท้ายเป็นหน้าที่ของบุคลากรที่ได้รับอนุญาต
+                </p>
+
+            </div>
+
+        </div>
+
+    `, "Incident Analysis");
+}
+
+/* =========================================================
+   CASE MANAGEMENT
+========================================================= */
+
+function casesPage() {
+    const c = ASG.getCase(state.caseId) || ASG.getCases()[0];
+    if (!c) { toast('ยังไม่มีเคส'); return; }
+    const order=['NEW','AI_ANALYZED','TEACHER_NOTIFIED','ACCEPTED','INTERVENTION','FOLLOW_UP','RESOLVED'];
+    const idx=order.indexOf(c.status);
+    const step=(status,title,sub)=>{
+        const i=order.indexOf(status);
+        const cls=i<idx?'done':i===idx?'current':'';
+        return `<div class="timeline-step ${cls}"><span class="timeline-dot"></span><b>${i<idx?'✓ ':i===idx?'● ':''}${title}</b><br><small>${sub}</small></div>`;
+    };
+    layout(`
+        <div class="card section">
+            <div class="topbar"><div><h1>Case Management</h1><p class="muted">เคส #${c.id} · ${c.type}</p></div><span class="badge ${c.status==='RESOLVED'?'badge-green':c.aiRisk==='CRITICAL'?'badge-red':'badge-orange'}">${ASG.statusLabel[c.status] || c.status}</span></div>
+            <div class="timeline">
+                ${step('NEW','Report received','ได้รับรายงานอย่างปลอดภัย')}
+                ${step('AI_ANALYZED','AI analysis completed','วิเคราะห์ความเสี่ยงเบื้องต้นแล้ว')}
+                ${step('TEACHER_NOTIFIED','Teacher notified','แจ้งครูแล้ว')}
+                ${step('ACCEPTED','Teacher accepted case',c.teacher?`รับเรื่องโดย ${c.teacher}`:'รอครูรับเรื่อง')}
+                ${step('INTERVENTION','Intervention in progress','กำลังประสานการช่วยเหลือ')}
+                ${step('FOLLOW_UP','Follow-up','ติดตามผล')}
+                ${step('RESOLVED','Resolved','เคสได้รับการแก้ไข')}
+            </div>
+            <label>Staff Notes</label>
+            <textarea id="staffNotes">${c.notes || ''}</textarea>
+            <div class="actions">
+                ${c.status !== 'RESOLVED' ? `<button class="btn primary" onclick="saveCaseNotes()">บันทึกการอัปเดต</button><button class="btn secondary" onclick="resolveCase()">ทำเครื่องหมายว่าแก้ไขแล้ว</button>` : `<button class="btn secondary" onclick="toast('เคสนี้ถูกแก้ไขแล้ว')">✓ Resolved</button>`}
+                <button class="btn secondary" onclick="go('dashboard')">กลับ Dashboard</button>
+            </div>
+        </div>
+    `, "Case Management");
+}
+
+function saveCaseNotes(){
+    const c=ASG.getCase(state.caseId);
+    if(!c)return;
+    const notes=document.getElementById('staffNotes')?.value || '';
+    ASG.updateCase(c.id,{notes,updatedAt:new Date().toISOString()});
+    toast('บันทึกการอัปเดตแล้ว');
+    render();
+}
+
+function resolveCase(){
+    if(!state.caseId)return;
+    const updated=ASG.setStatus(state.caseId,'RESOLVED','แก้ไขและติดตามเรียบร้อยแล้ว','Teacher');
+    if(updated){
+        toast('ทำเครื่องหมายว่าแก้ไขแล้ว');
+        state.accepted=false;
+        render();
+    }
+}
+
+
+/* =========================================================
+   SAFETY ALERTS
+========================================================= */
+
+function alertsPage() {
+
+    const filters = [
+        "ทั้งหมด",
+        "วิกฤต",
+        "สูง",
+        "ปานกลาง",
+        "ต่ำ",
+        "ยังไม่แก้ไข",
+        "แก้ไขแล้ว"
+    ];
+
+    let filtered = cases.filter(c => {
+
+        let filterMatch = true;
+
+        if (state.filter === "ยังไม่แก้ไข") {
+            filterMatch = c.status !== "แก้ไขแล้ว";
+        }
+        else if (state.filter === "แก้ไขแล้ว") {
+            filterMatch = c.status === "แก้ไขแล้ว";
+        }
+        else if (state.filter !== "ทั้งหมด") {
+            filterMatch = c.risk === state.filter;
+        }
+
+        const searchMatch =
+            `${c.id} ${c.student} ${c.type}`
+            .toLowerCase()
+            .includes(state.search.toLowerCase());
+
+        return filterMatch && searchMatch;
+
+    });
+
+    layout(`
+
+        <div class="card section">
+
+            <h1>
+                Safety Alerts
+            </h1>
+
+            <p class="muted">
+                รวมเหตุการณ์ทั้งหมดจากระบบ
+            </p>
+
+            <div class="filters">
+
+                ${filters.map(f => `
+
+                    <button
+                        class="${state.filter === f ? "active" : ""}"
+                        onclick="state.filter='${f}';render()"
+                    >
+                        ${f}
+                    </button>
+
+                `).join("")}
+
+            </div>
+
+            <input
+                placeholder="ค้นหานักเรียนหรือเลขเคส..."
+                value="${state.search}"
+                oninput="state.search=this.value;render()"
+            >
+
+            <div class="table-wrapper section">
+
+                ${renderTable(filtered)}
+
+            </div>
+
+        </div>
+
+    `, "Safety Alerts");
+}
+
+/* =========================================================
+   ESCALATION
+========================================================= */
+
+function escalationPage() {
+
+    layout(`
+
+        <div class="escalation-grid">
+
+            <div class="card section">
+
+                <div class="topbar">
+
+                    <h3>
+                        Critical Cases
+                    </h3>
+
+                    <span class="badge badge-red">
+                        🔴 CRITICAL
+                    </span>
+
+                </div>
+
+                <h2>
+                    Case #SG-1082
+                </h2>
+
+                <b>
+                    Physical Violence
+                </b>
+
+                <p class="muted">
+                    สถานะ: Awaiting Intervention
+                    <br>
+                    สถานที่: โรงยิม
+                    <br>
+                    เวลา: 10:45
+                </p>
+
+                <div class="actions">
+
+                    <button
+                        class="btn primary"
+                        onclick="toast('มอบหมายเจ้าหน้าที่แล้ว')"
+                    >
+                        Assign Staff
+                    </button>
+
+                    <button
+                        class="btn danger"
+                        onclick="toast('ส่งต่อทีมสนับสนุนนักเรียนแล้ว')"
+                    >
+                        Escalate
+                    </button>
+
+                    <button
+                        class="btn secondary"
+                        onclick="toast('เปิดช่องทางติดต่อผู้ดูแลระบบ')"
+                    >
+                        Contact Administrator
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="card section flow">
+
+                <h3>
+                    Escalation Flow
+                </h3>
+
+                <div class="flow-item">
+                    <b>Teacher</b>
+                    ผู้รับแจ้งเหตุ
+                </div>
+
+                ↓
+
+                <div class="flow-item">
+                    <b>Student Support Team</b>
+                    ทีมสนับสนุนนักเรียน
+                </div>
+
+                ↓
+
+                <div class="flow-item">
+                    <b>School Administrator</b>
+                    ผู้ดูแลโรงเรียน
+                </div>
+
+                ↓
+
+                <div class="flow-item">
+                    <b>External Support</b>
+                    สำหรับอนาคต
+                </div>
+
+            </div>
+
+        </div>
+
+    `, "Escalation Center");
+}
+
+/* =========================================================
+   SAFETY MAP
+========================================================= */
+
+function mapPage() {
+
+    layout(`
+
+        <div class="card section">
+
+            <h1>
+                Teacher Safety Map
+            </h1>
+
+            <p class="muted">
+                ภาพรวมรูปแบบเหตุการณ์ในพื้นที่ต่าง ๆ ของโรงเรียน
+            </p>
+
+            <div class="school-map">
+
+                <button
+                    class="building low building-a"
+                    onclick="showMapDetail(
+                        'อาคาร A',
+                        'ต่ำ',
+                        4,
+                        'ความขัดแย้ง'
+                    )"
+                >
+                    🟢 อาคาร A
+                </button>
+
+                <button
+                    class="building high building-b"
+                    onclick="showMapDetail(
+                        'อาคาร B',
+                        'สูง',
+                        12,
+                        'การกลั่นแกล้ง'
+                    )"
+                >
+                    🟠 อาคาร B
+                </button>
+
+                <button
+                    class="building critical gym"
+                    onclick="showMapDetail(
+                        'โรงยิม',
+                        'วิกฤต',
+                        7,
+                        'ความรุนแรงทางร่างกาย'
+                    )"
+                >
+                    🔴 โรงยิม
+                </button>
+
+                <button
+                    class="building medium cafeteria"
+                    onclick="showMapDetail(
+                        'โรงอาหาร',
+                        'ปานกลาง',
+                        5,
+                        'ความขัดแย้ง'
+                    )"
+                >
+                    🟡 โรงอาหาร
+                </button>
+
+                <button
+                    class="building low library"
+                    onclick="showMapDetail(
+                        'ห้องสมุด',
+                        'ต่ำ',
+                        3,
+                        'การคุกคาม / การรบกวน'
+                    )"
+                >
+                    🟢 ห้องสมุด
+                </button>
+
+                <button
+                    class="building low restroom"
+                    onclick="showMapDetail(
+                        'ห้องน้ำ',
+                        'ต่ำ',
+                        2,
+                        'อื่น ๆ'
+                    )"
+                >
+                    🟢 ห้องน้ำ
+                </button>
+
+                <button
+                    class="building courtyard"
+                    onclick="showMapDetail(
+                        'ลานกิจกรรม',
+                        'ต่ำ',
+                        2,
+                        'อื่น ๆ'
+                    )"
+                >
+                    🟢 ลานกิจกรรม
+                </button>
+
+            </div>
+
+            <div id="map-detail"></div>
+
+        </div>
+
+    `, "Safety Map");
+}
+
+function showMapDetail(
+    area,
+    risk,
+    count,
+    commonType
+) {
+
+    const colorClass =
+        risk === "วิกฤต"
+        ? "badge-red"
+        : risk === "สูง" || risk === "ปานกลาง"
+        ? "badge-orange"
+        : "badge-green";
+
+    document.getElementById("map-detail").innerHTML = `
+
+        <div class="card section">
+
+            <div class="topbar">
+
+                <h3>
+                    ${area}
+                </h3>
+
+                <span class="badge ${colorClass}">
+                    ${risk}
+                </span>
+
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-box">
+                    <small>
+                        เหตุการณ์เดือนนี้
+                    </small>
+
+                    <b>
+                        ${count} เหตุการณ์
+                    </b>
+                </div>
+
+                <div class="info-box">
+                    <small>
+                        ประเภทที่พบบ่อย
+                    </small>
+
+                    <b>
+                        ${commonType}
+                    </b>
+                </div>
+
+                <div class="info-box">
+                    <small>
+                        ช่วงเวลาที่เกิดบ่อย
+                    </small>
+
+                    <b>
+                        ${
+                            area === "อาคาร B"
+                            ? "12:00–13:00"
+                            : "10:00–12:00"
+                        }
+                    </b>
+                </div>
+
+            </div>
+
+            <div class="ai-note" style="margin-top:15px;">
+
+                <b>
+                    AI Insight
+                </b>
+
+                <br><br>
+
+                ${
+                    area === "อาคาร B"
+                    ? "พื้นที่นี้มีจำนวนรายงานเพิ่มขึ้นผิดปกติในช่วงพักกลางวัน"
+                    : "ยังไม่พบรูปแบบความเสี่ยงที่ผิดปกติอย่างมีนัยสำคัญ"
+                }
+
+                <br><br>
+
+                <b>
+                    คำแนะนำ:
+                </b>
+
+                ${
+                    area === "อาคาร B"
+                    ? "เพิ่มการดูแลของเจ้าหน้าที่ในช่วงพักกลางวัน"
+                    : "ติดตามแนวโน้มอย่างต่อเนื่อง"
+                }
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function profilePage() {
+
+    layout(`
+
+        <div class="card section profile">
+
+            <div class="profile-avatar">
+                T
+            </div>
+
+            <div>
+
+                <h2>
+                    คุณครู
+                </h2>
+
+                <div class="info-grid">
+
+                    <div class="info-box">
+                        <small>
+                            บทบาท
+                        </small>
+                        <b>
+                            Teacher
+                        </b>
+                    </div>
+
+                    <div class="info-box">
+                        <small>
+                            โรงเรียน
+                        </small>
+                        <b>
+                            โรงเรียนสาธิต
+                        </b>
+                    </div>
+
+                    <div class="info-box">
+                        <small>
+                            อีเมล
+                        </small>
+                        <b>
+                            teacher@school.ac.th
+                        </b>
+                    </div>
+
+                    <div class="info-box">
+                        <small>
+                            พื้นที่รับผิดชอบ
+                        </small>
+                        <b>
+                            อาคาร A–C
+                        </b>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card section">
+
+            <h3>
+                การตั้งค่า
+            </h3>
+
+            ${[
+                "การแจ้งเตือนเหตุวิกฤต",
+                "การแจ้งเตือนเคสใหม่",
+                "การแจ้งเตือนรูปแบบความเสี่ยง"
+            ].map(item => `
+
+                <div class="setting">
+
+                    <div>
+
+                        <b>
+                            ${item}
+                        </b>
+
+                        <br>
+
+                        <small class="muted">
+                            เปิดรับการแจ้งเตือน
+                        </small>
+
+                    </div>
+
+                    <div
+                        class="switch on"
+                        onclick="this.classList.toggle('on')"
+                    ></div>
+
+                </div>
+
+            `).join("")}
+
+        </div>
+
+    `, "Teacher Profile");
+}
+
+/* =========================================================
+   ACCEPT CASE
+========================================================= */
+
+function acceptCase() {
+    if (!state.caseId) return;
+    const updated = ASG.acceptCase(state.caseId, 'ครู Demo');
+    if (updated) {
+        state.accepted = true;
+        toast('รับเคสแล้ว — เริ่มติดตามการช่วยเหลือ');
+    }
+    render();
+}
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render() {
+
+    refreshCases();
+    if (!ASG.requireRole('teacher')) { state.page = 'login'; } else if (state.page === 'login') { state.page = 'dashboard'; }
+
+    if (state.page === "login") {
+        loginPage();
+    }
+
+    else if (state.page === "dashboard") {
+        dashboardPage();
+    }
+
+    else if (state.page === "analysis") {
+        analysisPage();
+    }
+
+    else if (state.page === "cases") {
+        casesPage();
+    }
+
+    else if (state.page === "alerts") {
+        alertsPage();
+    }
+
+    else if (state.page === "map") {
+        mapPage();
+    }
+
+    else if (state.page === "escalation") {
+        escalationPage();
+    }
+
+    else if (state.page === "profile") {
+        profilePage();
+    }
+}
+
+render();
+ASG.startSync(() => {
+    if (document.activeElement && ['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+    render();
+});
+
+</script>
+
+</body>
+</html>
