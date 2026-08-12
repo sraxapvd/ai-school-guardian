@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI โรงเรียน Guardian — ทดลองใช้งานสำหรับนักเรียน</title>
+<style>
+:root{
+  --navy:#10233f; --blue:#3978ff; --blue2:#eaf1ff; --bg:#f5f7fb;
+  --white:#fff; --text:#182338; --muted:#738096; --border:#e5e9f1;
+  --green:#19a974; --green-bg:#eaf9f2; --orange:#f59e0b; --orange-bg:#fff6df;
+  --red:#e53935; --red-bg:#fff0ef; --shadow:0 12px 35px rgba(22,35,60,.08);
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+button,input,textarea{font:inherit} button{cursor:pointer}
+.hidden{display:none!important}.app{min-height:100vh}
+.screen{min-height:100vh}.login{display:grid;place-items:center;padding:28px;background:linear-gradient(135deg,#f5f8ff,#eef4ff)}
+.login-card{width:min(460px,100%);background:#fff;border:1px solid var(--border);border-radius:28px;padding:38px;box-shadow:var(--shadow)}
+.logo{width:48px;height:48px;border-radius:15px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}
+.brand{display:flex;gap:13px;align-items:center}.brand h1{font-size:19px;margin:0}.brand span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.login h2{font-size:30px;margin:42px 0 8px}.subtitle{color:var(--muted);margin:0 0 28px}
+label{font-size:13px;font-weight:700;display:block;margin:18px 0 8px} input,textarea{width:100%;border:1px solid var(--border);background:#fbfcfe;border-radius:13px;padding:13px 14px;outline:none} input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #3978ff18}textarea{min-height:130px;resize:vertical}
+.primary,.secondary,.danger{border:0;border-radius:13px;padding:13px 16px;font-weight:750}.primary{background:var(--blue);color:#fff}.secondary{background:#fff;border:1px solid var(--border);color:var(--text)}.danger{background:var(--red);color:#fff}.full{width:100%;margin-top:22px}.demo{margin-top:12px;text-align:center;background:#f4f7ff;border:1px dashed #b9c9f5;border-radius:13px;padding:11px;font-size:13px;color:#46629d}
+.shell{display:flex;min-height:100vh}.sidebar{width:245px;background:#fff;border-right:1px solid var(--border);padding:25px 16px;position:fixed;height:100vh}.side-brand{padding:4px 10px 30px}.nav{display:grid;gap:7px}.nav button{border:0;background:transparent;text-align:left;padding:12px 14px;border-radius:12px;color:#637087;font-weight:650}.nav button.active,.nav button:hover{background:var(--blue2);color:var(--blue)}.main{margin-left:245px;width:calc(100% - 245px);padding:28px 38px 60px}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}.topbar h2{margin:0;font-size:25px}.avatar{width:40px;height:40px;border-radius:50%;background:#dce8ff;display:grid;place-items:center;color:#3158a8;font-weight:800}
+.container{max-width:1080px;margin:auto}.grid{display:grid;grid-template-columns:1.45fr .85fr;gap:20px}.card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:23px;box-shadow:0 6px 22px rgba(22,35,60,.035)}.hero{background:linear-gradient(135deg,var(--navy),#1d4172);color:#fff;border:0;padding:30px}.hero p{color:#cbd7ea}.hero .primary{background:#fff;color:var(--navy)}.hero-title{font-size:29px;font-weight:800;margin:0 0 8px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.75}.card-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.card-title h3{margin:0;font-size:17px}.status{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800}.safe{color:var(--green);background:var(--green-bg)}.warning{color:#b66d00;background:var(--orange-bg)}.critical{color:#c52b28;background:var(--red-bg)}
+.report-row{display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-top:1px solid var(--border)}.report-row:first-of-type{border-top:0}.report-row small{display:block;color:var(--muted);margin-top:4px}.right-stack{display:grid;gap:20px}.big-help{min-height:190px;display:flex;flex-direction:column;justify-content:space-between}.help-icon{font-size:35px}.page{max-width:900px;margin:auto}.page h1{font-size:28px;margin:0 0 8px}.page-sub{color:var(--muted);margin:0 0 26px}.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.choice{border:1px solid var(--border);background:#fff;border-radius:15px;padding:16px;text-align:left;font-weight:750}.choice.selected{border:2px solid var(--blue);background:var(--blue2)}.urgency{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.urgency button{border:1px solid var(--border);background:#fff;border-radius:12px;padding:12px;font-weight:750}.urgency button.selected{border:2px solid var(--blue)}.location{display:flex;justify-content:space-between;align-items:center;background:#f8fafc;border-radius:14px;padding:15px}.radio-row{display:grid;gap:11px}.radio{padding:14px;border:1px solid var(--border);border-radius:13px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.sos-box{margin-top:20px;border:1px solid #ffd1cf;background:var(--red-bg);border-radius:16px;padding:18px}.sos-box p{color:#8e3a38;font-size:13px}.modal-backdrop{position:fixed;inset:0;background:#0d1c33a8;display:grid;place-items:center;padding:20px;z-index:20}.modal{width:min(450px,100%);background:#fff;border-radius:24px;padding:27px;box-shadow:0 30px 70px #0003}.modal h2{margin-top:0}.center{text-align:center}.success-icon{font-size:54px}.chat{display:flex;flex-direction:column;gap:13px;min-height:560px}.bubble{max-width:75%;padding:14px 16px;border-radius:18px;line-height:1.5}.ai{background:#f0f4fa;align-self:flex-start}.student{background:var(--blue);color:#fff;align-self:flex-end}.quick-actions{display:flex;gap:8px;flex-wrap:wrap}.quick-actions button{border:1px solid #cad5e8;background:#fff;border-radius:999px;padding:9px 12px;font-size:12px}.chat-input{display:flex;gap:8px;margin-top:auto}.chat-input input{margin:0}.list-card{display:grid;gap:12px}.case-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:18px;display:flex;justify-content:space-between;align-items:center}.timeline{position:relative;margin:25px 0;padding-left:30px}.timeline:before{content:"";position:absolute;left:9px;top:7px;bottom:7px;width:2px;background:#dce3ee}.step{position:relative;padding:0 0 25px}.dot{position:absolute;left:-27px;top:1px;width:18px;height:18px;border-radius:50%;background:#dce3ee;border:4px solid #fff;box-shadow:0 0 0 1px #dce3ee}.step.done .dot{background:var(--green)}.step.current .dot{background:var(--orange)}.step strong{display:block}.step small{color:var(--muted)}.profile{display:grid;grid-template-columns:160px 1fr;gap:25px}.profile-avatar{width:120px;height:120px;border-radius:30px;background:#dce8ff;display:grid;place-items:center;font-size:35px;font-weight:850;color:#3158a8}.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.info-box{background:#f8fafc;border-radius:14px;padding:14px}.info-box small{display:block;color:var(--muted);margin-bottom:4px}.setting{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid var(--border)}.switch{width:45px;height:25px;border-radius:20px;background:#ccd5e2;position:relative}.switch.on{background:var(--blue)}.switch:after{content:"";position:absolute;width:19px;height:19px;background:#fff;border-radius:50%;top:3px;left:3px}.switch.on:after{left:23px}.toast{position:fixed;right:25px;bottom:25px;background:var(--navy);color:#fff;padding:13px 16px;border-radius:13px;box-shadow:var(--shadow);z-index:30}
+@media(max-width:800px){.sidebar{width:72px;padding:15px 9px}.side-brand .brand-text,.nav span{display:none}.main{margin-left:72px;width:calc(100% - 72px);padding:22px 16px}.grid{grid-template-columns:1fr}.choices{grid-template-columns:1fr 1fr}.profile{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.choices,.urgency{grid-template-columns:1fr 1fr}.main{padding:16px}.topbar h2{font-size:20px}.hero-title{font-size:24px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modalRoot"></div>
+<div id="toastRoot"></div>
+<script>
+const state={
+  page:'login', type:'', urgency:'', incident:'', privacy:'identity',
+  reports:[
+    {id:'SG-1024',type:'การกลั่นแกล้ง',priority:'สูง Priority',status:'ครูกำลังตรวจสอบ',loc:'อาคาร B — ชั้น 2'},
+    {id:'SG-1008',type:'ความขัดแย้ง',priority:'แก้ไขแล้ว',status:'แก้ไขแล้ว',loc:'อาคาร A — ชั้น 1'}
+  ],
+  selectedCase:'SG-1024'
+};
+
+const app=document.getElementById('app');
+const modalRoot=document.getElementById('modalRoot');
+const toastRoot=document.getElementById('toastRoot');
+
+function toast(msg){toastRoot.innerHTML='<div class="toast">'+msg+'</div>';setTimeout(()=>toastRoot.innerHTML='',2600)}
+function go(p){state.page=p;render()}
+function nav(p){if(p==='request')go('request');else go(p)}
+
+function login(){
+ app.innerHTML=`<div class="screen login"><div class="login-card">
+  <div class="brand"><div class="logo">AI</div><div><h1>AI โรงเรียน Guardian</h1><span>แพลตฟอร์ม AI เพื่อความปลอดภัยและสุขภาวะในโรงเรียน</span></div></div>
+  <h2>ยินดีต้อนรับกลับมา</h2><p class="subtitle">เข้าสู่ระบบเพื่อใช้งานพื้นที่ความปลอดภัยสำหรับนักเรียน</p>
+  <label>อีเมลโรงเรียน</label><input placeholder="student@school.ac.th">
+  <label>รหัสผ่าน</label><input type="password" placeholder="••••••••">
+  <button class="primary full" onclick="go('home')">เข้าสู่ระบบ</button>
+  <button class="secondary full" onclick="go('home')">เข้าสู่ระบบด้วยบัญชีโรงเรียน</button>
+  <div class="demo"><b>ทดลองใช้งานสำหรับนักเรียน</b> · กดเพื่อเข้าสู่ระบบทันที</div>
+  <button class="secondary full" onclick="go('home')">Enter ทดลองใช้งานสำหรับนักเรียน</button>
+ </div></div>`;
+}
+
+function layout(content,title='หน้าหลัก'){
+ app.innerHTML=`<div class="shell">
+ <aside class="sidebar"><div class="side-brand"><div class="brand"><div class="logo">AI</div><div class="brand-text"><b>AI โรงเรียน</b><br><span>Guardian</span></div></div></div>
+ <div class="nav">
+  <button class="${state.page==='home'?'active':''}" onclick="go('home')">⌂ <span>หน้าหลัก</span></button>
+  <button class="${state.page==='request'?'active':''}" onclick="go('request')">🆘 <span>ขอความช่วยเหลือ</span></button>
+  <button class="${state.page==='assistant'?'active':''}" onclick="go('assistant')">✦ <span>ผู้ช่วย AI</span></button>
+  <button class="${state.page==='reports'||state.page==='case'?'active':''}" onclick="go('reports')">▣ <span>รายงานของฉัน</span></button>
+  <button class="${state.page==='profile'?'active':''}" onclick="go('profile')">◯ <span>โปรไฟล์</span></button>
+ </div></aside>
+ <main class="main"><div class="container"><div class="topbar"><h2>${title}</h2><div class="avatar">S</div></div>${content}</div></main></div>`;
+}
+
+function home(){
+ layout(`<div class="grid">
+  <div class="card hero big-help"><div><div class="eyebrow">ความปลอดภัยของนักเรียน</div><div class="hero-title">ความปลอดภัยของคุณสำคัญ<br>คุณไม่ต้องรับมือเพียงลำพัง</div><p>ต้องการความช่วยเหลือหรือรู้สึกไม่ปลอดภัย? เราพร้อมช่วยคุณ</p></div><button class="primary" onclick="go('request')">🚨 ขอความช่วยเหลือ</button></div>
+  <div class="right-stack">
+   <div class="card"><div class="card-title"><h3>สถานะความปลอดภัยของฉัน</h3><span class="status safe">● ปลอดภัย</span></div><p style="margin:0;color:var(--muted)">🟢 ขณะนี้คุณอยู่ในสถานะปลอดภัย</p></div>
+   <div class="card"><div class="card-title"><h3>รายงานล่าสุด</h3><span class="status warning">กำลังตรวจสอบ</span></div><b>รายงานการกลั่นแกล้ง</b><p style="margin:7px 0 0;color:var(--muted);font-size:13px">ครูกำลังตรวจสอบ</p><button class="secondary" style="margin-top:14px" onclick="go('case')">ดูสถานะ</button></div>
+  </div>
+ </div>`);
+}
+
+function request(){
+ const types=['🚨 เหตุฉุกเฉิน','การกลั่นแกล้ง','การคุกคาม / การรบกวน','ความรุนแรงทางร่างกาย','ความขัดแย้ง','การสนับสนุนด้านอารมณ์','อื่น ๆ'];
+ const urgency=[['🟢','ต่ำ'],['🟡','ปานกลาง'],['🟠','สูง'],['🔴','วิกฤต']];
+ layout(`<div class="page">
+  <h1>เราจะช่วยคุณได้อย่างไร?</h1><p class="page-sub">เลือกประเภทปัญหาที่ตรงกับสิ่งที่คุณกำลังเผชิญมากที่สุด</p>
+  <div class="card"><div class="choices">${types.map(t=>`<button class="choice ${state.type===t?'selected':''}" onclick="selectType('${t}')">${t}</button>`).join('')}</div>
+  <label>เกิดอะไรขึ้น?</label><textarea id="incident" placeholder="เล่าให้เราฟังว่าเกิดอะไรขึ้น...">${state.incident}</textarea>
+  <label>ระดับความเร่งด่วน</label><div class="urgency">${urgency.map(x=>`<button class="${state.urgency===x[1]?'selected':''}" onclick="selectระดับความเร่งด่วน('${x[1]}')">${x[0]} ${x[1]}</button>`).join('')}</div>
+  <label>ตำแหน่งปัจจุบัน</label><div class="location"><span>📍 <b>อาคาร B — ชั้น 2</b></span><small style="color:var(--muted)">แชร์ให้เจ้าหน้าที่ที่ได้รับอนุญาตเท่านั้น</small></div>
+  <label>ความเป็นส่วนตัว</label><div class="radio-row">
+   <div class="radio" onclick="state.privacy='identity';render()">◉ <b>เปิดเผยตัวตน</b><br><small style="margin-left:23px;color:var(--muted)">เจ้าหน้าที่สามารถติดต่อคุณได้โดยตรง</small></div>
+   <div class="radio" onclick="state.privacy='confidential';render()">◯ <b>รายงานแบบเป็นความลับ</b><br><small style="margin-left:23px;color:var(--muted)">ข้อมูลของคุณจะถูกจำกัดให้เฉพาะเจ้าหน้าที่ที่ได้รับอนุญาต</small></div>
+  </div>
+  <div class="actions"><button class="primary" onclick="submitReport()">ส่งรายงาน</button></div>
+  </div>
+  <div class="sos-box"><b>🔴 เหตุฉุกเฉิน?</b><p>หากคุณกำลังตกอยู่ในอันตราย ให้ใช้ SOS ฉุกเฉิน เพื่อแจ้งเตือนเจ้าหน้าที่ที่ได้รับอนุญาตอย่างรวดเร็ว</p><button class="danger" onclick="openSOS()">SOS ฉุกเฉิน</button></div>
+ </div>`);
+}
+function selectType(t){state.type=t;render()}
+function selectระดับความเร่งด่วน(u){state.urgency=u;render()}
+function submitReport(){
+ state.incident=document.getElementById('incident')?.value||'';
+ if(!state.type){toast('กรุณาเลือกประเภทเหตุการณ์');return}
+ if(!state.incident.trim())state.incident='เพื่อนกลุ่มหนึ่งล้อฉันทุกวัน และวันนี้เริ่มข่มขู่ฉัน';
+ if(!state.urgency)state.urgency='สูง';
+ modalRoot.innerHTML=`<div class="modal-backdrop"><div class="modal center"><div class="success-icon">✦</div><h2>การวิเคราะห์ความเสี่ยงโดย AI</h2><p style="color:var(--muted)">กำลังวิเคราะห์รายงานและส่งต่อไปยังบุคลากรที่เหมาะสม…</p><div style="background:#f5f8fc;border-radius:14px;padding:14px;text-align:left;margin:18px 0"><b>สัญญาณเบื้องต้น</b><br><small>ตรวจพบสัญญาณของเหตุการณ์ที่เกิดขึ้นซ้ำ จำเป็นต้องมีบุคลากรตรวจสอบต่อ</small></div><button class="primary full" onclick="finishReport()">ดำเนินการต่อ</button></div></div>`;
+}
+function finishReport(){
+ modalRoot.innerHTML=`<div class="modal-backdrop"><div class="modal center"><div class="success-icon">✓</div><h2>ส่งรายงานเรียบร้อยแล้ว</h2><p style="color:var(--muted)">รายงานของคุณถูกส่งอย่างปลอดภัยไปยังเจ้าหน้าที่โรงเรียนที่ได้รับอนุญาตแล้ว</p><div style="text-align:left;background:#f5f8fc;border-radius:14px;padding:15px"><b>เคส #SG-1024</b><br>แจ้งครูแล้ว · ${state.urgency} priority</div><button class="primary full" onclick="modalRoot.innerHTML='';go('case')">View Case สถานะ</button></div></div>`;
+ state.reports[0]={id:'SG-1024',type:state.type,priority:'ความสำคัญ'+state.urgency,status:'ครูกำลังตรวจสอบ',loc:'อาคาร B — ชั้น 2'};
+}
+function openSOS(){
+ modalRoot.innerHTML=`<div class="modal-backdrop"><div class="modal"><h2>คำขอความช่วยเหลือฉุกเฉิน</h2><p style="color:var(--muted)">ขณะนี้คุณกำลังตกอยู่ในอันตรายหรือไม่?</p><button class="danger full" onclick="sendSOS()">ใช่ ส่งสัญญาณแจ้งเหตุฉุกเฉิน</button><button class="secondary full" onclick="modalRoot.innerHTML=''">ยกเลิก</button></div></div>`;
+}
+function sendSOS(){
+ modalRoot.innerHTML=`<div class="modal-backdrop"><div class="modal center"><div class="success-icon">🚨</div><h2>ความช่วยเหลือกำลังมา</h2><p style="color:var(--muted)">เจ้าหน้าที่โรงเรียนที่ได้รับอนุญาตได้รับการแจ้งเตือนแล้ว</p><div style="text-align:left;line-height:1.9;background:#fff7f6;border-radius:14px;padding:15px"><b>รหัสนักเรียน:</b> #1024<br><b>ตำแหน่ง:</b> อาคาร B — ชั้น 2<br><b>เวลา:</b> 10:32 AM<br>✓ ส่งคำขอฉุกเฉินแล้ว<br>✓ แจ้งเจ้าหน้าที่ที่ได้รับอนุญาตในบริเวณใกล้เคียงแล้ว</div><button class="primary full" onclick="modalRoot.innerHTML='';go('case')">ดูสถานะ</button></div></div>`;
+}
+
+function assistant(){
+ layout(`<div class="page"><h1>ผู้ช่วย AI Guardian</h1><p class="page-sub">ฉันพร้อมช่วยคุณค้นหาความช่วยเหลือที่เหมาะสม</p>
+ <div class="card chat">
+  <div class="bubble student">หนูไม่อยากมาโรงเรียนเลย เพื่อนชอบล้อหนูทุกวัน</div>
+  <div class="bubble ai">จากสิ่งที่คุณเล่า เหตุการณ์นี้อาจเกิดขึ้นซ้ำและส่งผลต่อความรู้สึกของคุณ คุณไม่จำเป็นต้องรับมือเรื่องนี้คนเดียว</div>
+  <div class="quick-actions"><button onclick="go('request')">พูดคุยกับครู</button><button onclick="go('request')">ส่งรายงานแบบเป็นความลับ</button><button onclick="go('request')">ขอความช่วยเหลือทันที</button><button onclick="toast('AI: เล่าเหตุการณ์เพิ่มเติมได้เลย')">เล่าเพิ่มเติม</button></div>
+  <div class="chat-input"><input placeholder="เล่าให้ฉันฟังว่าเกิดอะไรขึ้น…" onkeydown="if(event.key==='Enter')toast('AI Guardian พร้อมช่วยคุณแล้ว')"><button class="primary" onclick="toast('ส่งข้อความไปยัง AI Guardian แล้ว')">ส่ง</button></div>
+  <small style="color:var(--muted)">AI Guardian ไม่ได้วินิจฉัยภาวะสุขภาพจิต แต่ช่วยเชื่อมต่อนักเรียนกับบุคลากรที่ไว้ใจได้</small>
+ </div></div>`);
+}
+
+function reports(){
+ layout(`<div class="page"><h1>รายงานของฉัน</h1><p class="page-sub">ติดตามรายงานที่ส่งและความคืบหน้าการช่วยเหลือ</p><div class="list-card">
+ ${state.reports.map(r=>`<div class="case-card" onclick="state.selectedCase='${r.id}';go('case')"><div><b>เคส #${r.id}</b><div style="margin-top:6px">${r.type}</div><small style="color:var(--muted)">${r.status}</small></div><span class="status ${r.status==='แก้ไขแล้ว'?'safe':'warning'}">${r.priority}</span></div>`).join('')}
+ </div></div>`);
+}
+
+function casePage(){
+ const r=state.reports.find(x=>x.id===state.selectedCase)||state.reports[0];
+ layout(`<div class="page"><h1>เคส #${r.id}</h1><p class="page-sub">คำขอความช่วยเหลือของคุณกำลังได้รับการดูแลโดยเจ้าหน้าที่ที่ได้รับอนุญาต</p>
+ <div class="card"><div class="card-title"><h3>สถานะ</h3><span class="status warning">${r.priority}</span></div>
+ <div class="timeline">
+  <div class="step done"><span class="dot"></span><strong>ส่งรายงานแล้ว</strong><small>ได้รับข้อมูลอย่างปลอดภัย</small></div>
+  <div class="step done"><span class="dot"></span><strong>วิเคราะห์ความเสี่ยงเบื้องต้นโดย AI แล้ว</strong><small>AI ช่วยประเมินและสนับสนุนการตัดสินใจเบื้องต้นแล้ว</small></div>
+  <div class="step done"><span class="dot"></span><strong>แจ้งครูแล้ว</strong><small>แจ้งเจ้าหน้าที่ที่เกี่ยวข้องแล้ว</small></div>
+  <div class="step done"><span class="dot"></span><strong>ครูรับเรื่องแล้ว</strong><small>อยู่ระหว่างการตรวจสอบโดยบุคลากร</small></div>
+  <div class="step current"><span class="dot"></span><strong>อยู่ระหว่างการช่วยเหลือ</strong><small>กำลังประสานการช่วยเหลือ</small></div>
+ </div>
+ <div class="info-grid"><div class="info-box"><small>Location</small><b>📍 อาคาร B — ชั้น 2</b></div><div class="info-box"><small>สรุปโดย AI</small><b>“ตรวจพบสัญญาณการกลั่นแกล้งที่เกิดขึ้นซ้ำ”</b></div></div>
+ <div class="actions"><button class="primary" onclick="toast('ส่งคำขอติดต่อฝ่ายช่วยเหลือแล้ว')">ติดต่อฝ่ายช่วยเหลือ</button><button class="secondary" onclick="go('reports')">กลับไปรายงานของฉัน</button></div>
+ </div></div>`);
+}
+
+function profile(){
+ layout(`<div class="page"><h1>โปรไฟล์นักเรียน</h1><p class="page-sub">ข้อมูลบัญชีและการตั้งค่าความปลอดภัยของคุณ</p>
+ <div class="card profile"><div class="profile-avatar">S</div><div><h2 style="margin-top:0">นักเรียน</h2><div class="info-grid">
+ <div class="info-box"><small>นักเรียน ID</small><b>#1024</b></div><div class="info-box"><small>ระดับชั้น</small><b>ระดับชั้น 11</b></div><div class="info-box"><small>โรงเรียน</small><b>Demo โรงเรียน</b></div><div class="info-box"><small>Email</small><b>student@school.ac.th</b></div>
+ </div></div></div>
+ <div class="card" style="margin-top:20px"><div class="card-title"><h3>การตั้งค่า</h3></div>
+ ${[['ความเป็นส่วนตัว','การควบคุมความเป็นส่วนตัวของคุณ','on'],['การแจ้งเตือน','รับการอัปเดตเกี่ยวกับการช่วยเหลือ','on'],['สิทธิ์การเข้าถึงตำแหน่ง','แชร์ตำแหน่งเมื่อขอความช่วยเหลือ','on'],['การรายงานแบบเป็นความลับ','เปิดใช้งานการรายงานแบบเป็นความลับ','on']].map(x=>`<div class="setting"><div><b>${x[0]}</b><br><small style="color:var(--muted)">${x[1]}</small></div><div class="switch ${x[2]}" onclick="this.classList.toggle('on')"></div></div>`).join('')}
+ </div></div>`);
+}
+
+function render(){
+ if(state.page==='login')return login();
+ if(state.page==='home')return home();
+ if(state.page==='request')return request();
+ if(state.page==='assistant')return assistant();
+ if(state.page==='reports')return reports();
+ if(state.page==='case')return casePage();
+ if(state.page==='profile')return profile();
+}
+render();
+</script>
+</body>
+</html>
