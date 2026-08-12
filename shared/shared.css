@@ -1,0 +1,5 @@
+/* Shared integration layer. Existing role-specific CSS remains the visual source of truth. */
+.asg-role-switch{position:fixed;left:16px;bottom:16px;z-index:50;display:flex;gap:6px;flex-wrap:wrap}
+.asg-role-switch a{font:700 11px/1 system-ui,sans-serif;text-decoration:none;color:#3158a8;background:#fff;border:1px solid #e5e9f1;border-radius:999px;padding:8px 10px;box-shadow:0 6px 18px rgba(22,35,60,.08)}
+.asg-notice{margin:0 0 16px;padding:12px 14px;border-radius:14px;background:#eaf1ff;border:1px solid #cddcff;color:#294d98;font-size:13px}
+.asg-status-accepted{background:#eaf1ff!important;color:#315dc1!important}
